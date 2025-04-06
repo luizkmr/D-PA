@@ -96,7 +96,7 @@ export default function FormWizard() {
         { name: 'instagram', label: 'Perfil do Instagram' }
       ]
     },
-
+];
    {
   title: 'Sobre o Negócio',
   questions: [
