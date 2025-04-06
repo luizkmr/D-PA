@@ -231,6 +231,7 @@ export default function FormWizard() {
     }
   ]
 }
+];
 const currentStep = steps[step]
 
 if (loading) return <p>🔄 Processando com IA... Aguarde...</p>
