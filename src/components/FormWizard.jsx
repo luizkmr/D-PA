@@ -96,7 +96,6 @@ export default function FormWizard() {
         { name: 'instagram', label: 'Perfil do Instagram' }
       ]
     },
-];
    {
   title: 'Sobre o Negócio',
   questions: [
@@ -232,8 +231,6 @@ export default function FormWizard() {
     }
   ]
 }
-
-
 const currentStep = steps[step]
 
 if (loading) return <p>🔄 Processando com IA... Aguarde...</p>
