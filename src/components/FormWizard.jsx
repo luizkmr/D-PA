@@ -331,13 +331,43 @@ const handleSubmit = async () => {
                   </label>
                 ))
               ) : (
-                <input
-                  type={q.type || 'text'}
-                  name={q.name}
-                  value={formData[q.name] || ''}
-                  onChange={handleChange}
-                  style={{ width: '100%', padding: 8 }}
-                />
+                {q.name === 'whatsapp' ? (
+  <InputMask
+    mask="(99) 99999-9999"
+    name={q.name}
+    value={formData[q.name] || ''}
+    onChange={handleChange}
+  >
+    {(inputProps) => (
+      <input
+        {...inputProps}
+        type="tel"
+        placeholder="(00) 90000-0000"
+        style={{ width: '100%', padding: 8 }}
+      />
+    )}
+  </InputMask>
+) : q.name === 'ticketMedio' || q.name === 'vendas3Meses' ? (
+  <input
+    type="number"
+    name={q.name}
+    min="0"
+    step="0.01"
+    value={formData[q.name] || ''}
+    onChange={handleChange}
+    style={{ width: '100%', padding: 8 }}
+    placeholder="Digite um valor numérico"
+  />
+) : (
+  <input
+    type={q.type || 'text'}
+    name={q.name}
+    value={formData[q.name] || ''}
+    onChange={handleChange}
+    style={{ width: '100%', padding: 8 }}
+  />
+)}
+
               )}
             </label>
           </div>
