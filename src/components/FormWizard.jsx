@@ -13,6 +13,78 @@ export default function FormWizard() {
   const [erro, setErro] = useState(null)
   const resultRef = useRef()
 
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target
+
+    if (type === 'checkbox') {
+      const atual = formData[name] || []
+      setFormData({
+        ...formData,
+        [name]: checked
+          ? [...atual, value]
+          : atual.filter((item) => item !== value)
+      })
+    } else {
+      setFormData({ ...formData, [name]: value })
+    }
+  }
+
+  const handleNext = () => {
+    if (step === 0) {
+      const email = formData.email || ''
+      const telefone = (formData.whatsapp || '').replace(/\D/g, '')
+
+      const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+      const telefoneValido = telefone.length === 11
+
+      if (!emailValido) {
+        alert('Por favor, informe um e-mail válido.')
+        return
+      }
+
+      if (!telefoneValido) {
+        alert('Informe um número de WhatsApp válido com DDD.')
+        return
+      }
+    }
+
+    if (step < steps.length - 1) setStep(step + 1)
+    else handleSubmit()
+  }
+
+  const handleBack = () => {
+    if (step > 0) setStep(step - 1)
+  }
+
+  const handleSubmit = async () => {
+    setLoading(true)
+    setErro(null)
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+      const data = await response.json()
+      setResultado(data.resultado)
+    } catch (err) {
+      setErro('Erro ao processar análise com IA.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const gerarPDF = async () => {
+    const elemento = resultRef.current
+    const canvas = await html2canvas(elemento)
+    const imgData = canvas.toDataURL('image/png')
+    const pdf = new jsPDF('p', 'mm', 'a4')
+    const largura = pdf.internal.pageSize.getWidth()
+    const altura = pdf.internal.pageSize.getHeight()
+    pdf.addImage(imgData, 'PNG', 0, 0, largura, altura)
+    pdf.save(`diagnostico-${formData.nomeEmpresa || 'empresa'}.pdf`)
+  }
+
   const steps = [
     {
       title: 'Dados Pessoais',
@@ -164,62 +236,6 @@ export default function FormWizard() {
 
   const currentStep = steps[step]
 
-  const handleNext = () => {
-    if (step === 0) {
-      const email = formData.email || ''
-      const telefone = (formData.whatsapp || '').replace(/\D/g, '')
-
-      const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-      const telefoneValido = telefone.length === 11
-
-      if (!emailValido) {
-        alert('Por favor, informe um e-mail válido.')
-        return
-      }
-
-      if (!telefoneValido) {
-        alert('Informe um número de WhatsApp válido com DDD.')
-        return
-      }
-    }
-
-    if (step < steps.length - 1) setStep(step + 1)
-    else handleSubmit()
-  }
-
-  const handleBack = () => {
-    if (step > 0) setStep(step - 1)
-  }
-
-  const handleSubmit = async () => {
-    setLoading(true)
-    setErro(null)
-    try {
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      })
-      const data = await response.json()
-      setResultado(data.resultado)
-    } catch (err) {
-      setErro('Erro ao processar análise com IA.')
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const gerarPDF = async () => {
-    const elemento = resultRef.current
-    const canvas = await html2canvas(elemento)
-    const imgData = canvas.toDataURL('image/png')
-    const pdf = new jsPDF('p', 'mm', 'a4')
-    const largura = pdf.internal.pageSize.getWidth()
-    const altura = pdf.internal.pageSize.getHeight()
-    pdf.addImage(imgData, 'PNG', 0, 0, largura, altura)
-    pdf.save(`diagnostico-${formData.nomeEmpresa || 'empresa'}.pdf`)
-  }
-
   if (loading) return <p>🔄 Processando com IA... Aguarde...</p>
 
   if (resultado)
@@ -242,7 +258,7 @@ export default function FormWizard() {
             <label>
               {q.label}<br />
               {q.type === 'select' ? (
-                <select name={q.name} value={formData[q.name] || ''} onChange={(e) => handleChange(e)}>
+                <select name={q.name} value={formData[q.name] || ''} onChange={handleChange}>
                   <option value="">Selecione</option>
                   {q.options.map((opt) => (
                     <option key={opt} value={opt}>{opt}</option>
