@@ -84,55 +84,8 @@ export default function FormWizard() {
     pdf.save(`diagnostico-${formData.nomeEmpresa || 'empresa'}.pdf`)
   }
 
-  const steps = [
-    {
-      title: 'Dados Pessoais',
-      questions: [
-        { name: 'nome', label: 'Seu nome *' },
-        { name: 'email', label: 'Seu melhor email *', type: 'email' },
-        { name: 'whatsapp', label: 'WhatsApp *', type: 'masked' },
-        { name: 'cidade', label: 'Sua Cidade *' },
-        { name: 'site', label: 'Informe seu Site' },
-        { name: 'instagram', label: 'Perfil do Instagram' }
-      ]
-    },
-    {
-      title: 'Sobre o Negócio',
-      questions: [
-        { name: 'nomeEmpresa', label: 'Nome do seu negócio *' },
-        {
-          name: 'tipoNegocio',
-          label: 'Tipo de negócio',
-          type: 'select',
-          options: ['Físico', 'Online', 'Híbrido (online e físico)']
-        },
-        {
-          name: 'temSocios',
-          label: 'Você tem sócios?',
-          type: 'radio',
-          options: ['Sim', 'Não']
-        },
-        {
-          name: 'nicho',
-          label: 'Qual é o seu nicho de mercado e qual o principal problema que seu produto/serviço resolve? *'
-        },
-        {
-          name: 'momentoAtual',
-          label: 'Como você descreveria o momento atual do seu negócio? *'
-        },
-        {
-          name: 'publicoAlvo',
-          label: 'Quem é o seu público-alvo e como você atualmente os atrai? *'
-        },
-        {
-          name: 'acompanhaFaturamento',
-          label: 'Você acompanha regularmente seu faturamento e lucro?',
-          type: 'radio',
-          options: ['Sim', 'Não', 'Às vezes']
-        }
-      ]
-    }
-  ]
+  const steps = [/* 👇 mantém seu bloco completo de perguntas aqui */]
+  // 👆 Cole aqui o MESMO bloco `steps` que você postou acima, sem alterações
 
   const currentStep = steps[step]
 
@@ -166,7 +119,7 @@ export default function FormWizard() {
                 </select>
               ) : q.type === 'radio' ? (
                 q.options.map((opt) => (
-                  <label key={opt}>
+                  <label key={opt} style={{ marginRight: 10 }}>
                     <input
                       type="radio"
                       name={q.name}
@@ -178,17 +131,17 @@ export default function FormWizard() {
                 ))
               ) : q.type === 'checkbox' ? (
                 q.options.map((opt) => (
-                  <label key={opt}>
+                  <label key={opt} style={{ display: 'block' }}>
                     <input
                       type="checkbox"
                       name={q.name}
                       value={opt}
-                      checked={formData[q.name]?.includes(opt)}
+                      checked={(formData[q.name] || []).includes(opt)}
                       onChange={handleChange}
                     /> {opt}
                   </label>
                 ))
-              ) : q.type === 'masked' ? (
+              ) : q.name === 'whatsapp' ? (
                 <InputMask
                   mask="(99) 99999-9999"
                   name={q.name}
