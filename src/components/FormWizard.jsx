@@ -7,6 +7,20 @@ const API_URL = 'https://d-pa-backend-production.up.railway.app/analyze'
 export default function FormWizard() {
   const [step, setStep] = useState(0)
   const [formData, setFormData] = useState({})
+    const handleChange = (e) => {
+    const { name, value, type, checked } = e.target
+
+    if (type === 'checkbox') {
+      const atual = formData[name] || []
+      if (checked) {
+        setFormData({ ...formData, [name]: [...atual, value] })
+      } else {
+        setFormData({ ...formData, [name]: atual.filter((v) => v !== value) })
+      }
+    } else {
+      setFormData({ ...formData, [name]: value })
+    }
+  }
   const [resultado, setResultado] = useState(null)
   const [loading, setLoading] = useState(false)
   const [erro, setErro] = useState(null)
