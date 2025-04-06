@@ -40,7 +40,7 @@ const steps = [
   },
 ]
 
-const API_URL = 'https://nodejs-production-5d7a.up.railway.app/analyze' // substitua pelo seu endpoint real
+const API_URL = 'https://d-pa-backend-production.up.railway.app/analyze' // substitua pelo seu endpoint real
 
 export default function FormWizard() {
   const [step, setStep] = useState(0)
