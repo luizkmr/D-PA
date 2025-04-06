@@ -17,7 +17,7 @@ export default function FormWizard() {
     const { name, value, type, checked } = e.target
 
     if (type === 'checkbox') {
-      const atual = formData[name] || []
+      const atual = Array.isArray(formData[name]) ? formData[name] : []
       setFormData({
         ...formData,
         [name]: checked
@@ -33,7 +33,6 @@ export default function FormWizard() {
     if (step === 0) {
       const email = formData.email || ''
       const telefone = (formData.whatsapp || '').replace(/\D/g, '')
-
       const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
       const telefoneValido = telefone.length === 11
 
@@ -84,7 +83,6 @@ export default function FormWizard() {
     pdf.addImage(imgData, 'PNG', 0, 0, largura, altura)
     pdf.save(`diagnostico-${formData.nomeEmpresa || 'empresa'}.pdf`)
   }
-
   const steps = [
     {
       title: 'Dados Pessoais',
