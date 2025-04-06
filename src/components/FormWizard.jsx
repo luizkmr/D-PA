@@ -83,6 +83,7 @@ export default function FormWizard() {
     pdf.addImage(imgData, 'PNG', 0, 0, largura, altura)
     pdf.save(`diagnostico-${formData.nomeEmpresa || 'empresa'}.pdf`)
   }
+
   const steps = [
     {
       title: 'Dados Pessoais',
@@ -95,235 +96,236 @@ export default function FormWizard() {
         { name: 'instagram', label: 'Perfil do Instagram' }
       ]
     },
+
+   {
+  title: 'Sobre o Negócio',
+  questions: [
+    { name: 'nomeEmpresa', label: 'Nome do seu negócio *' },
     {
-      title: 'Sobre o Negócio',
-      questions: [
-        { name: 'nomeEmpresa', label: 'Nome do seu negócio *' },
-        {
-          name: 'tipoNegocio',
-          label: 'Tipo de negócio',
-          type: 'select',
-          options: ['Loja Física', 'E-commerce Online', 'Prestação de Serviços', 'Híbrido (Online & Físico)', 'Consultoria/Serviços Profissionais', 'Outro']
-        },
-        {
-          name: 'anosOperacao',
-          label: 'Há quantos anos seu negócio está operando?',
-          type: 'select',
-          options: ['Menos de 1 ano', '1-3 anos', '4-10 anos', 'Mais de 10 anos']
-        },
-        {
-          name: 'temSocios',
-          label: 'Você tem sócios?',
-          type: 'radio',
-          options: ['Sim', 'Não']
-        },
-        {
-          name: 'posicaoMercado',
-          label: 'Como você descreveria sua posição atual no mercado?',
-          type: 'radio',
-          options: ['Líder de Mercado', 'Concorrente Forte', 'Presença Crescente', 'Novo Entrante', 'Dificuldade em Ganhar Tração']
-        },
-        { name: 'nicho', label: 'Qual é o seu nicho de mercado e o principal problema que resolve?' },
-        { name: 'produtoServico', label: 'Qual Produto/Serviço você oferece?' },
-        { name: 'modeloNegocio', label: 'Modelo de negócios e principais fontes de receita' },
-        { name: 'publicoAlvo', label: 'Quem é seu público-alvo e como os atrai hoje?' },
-        { name: 'momentoAtual', label: 'Como você descreveria o momento atual do seu negócio?' }
-      ]
+      name: 'tipoNegocio',
+      label: 'Tipo de negócio',
+      type: 'select',
+      options: ['Loja Física', 'E-commerce Online', 'Prestação de Serviços', 'Híbrido (Online & Físico)', 'Consultoria/Serviços Profissionais', 'Outro']
     },
     {
-      title: 'Performance e Finanças',
-      questions: [
-        { name: 'ticketMedio', label: 'Ticket médio (R$)', type: 'number' },
-        { name: 'vendas3Meses', label: 'Total de vendas nos últimos 3 meses', type: 'number' },
-        { name: 'metaCrescimento', label: 'Meta de crescimento para os próximos 6 meses *' },
-        {
-          name: 'acompanhaFaturamento',
-          label: 'Você acompanha regularmente faturamento e lucro?',
-          type: 'radio',
-          options: ['Sim', 'Não', 'Às vezes']
-        },
-        {
-          name: 'investimentoMarketing',
-          label: 'Investimento médio mensal em marketing digital (últimos 6 meses)',
-          type: 'select',
-          options: ['Menos de R$ 5.000,00', 'Entre R$ 5.001,00 e R$ 10.000,00', 'Entre R$ 10.001,00 e R$ 20.000,00', 'Mais de R$ 20.001,00']
-        }
-      ]
+      name: 'anosOperacao',
+      label: 'Há quantos anos seu negócio está operando?',
+      type: 'select',
+      options: ['Menos de 1 ano', '1-3 anos', '4-10 anos', 'Mais de 10 anos']
     },
     {
-      title: 'Marketing e Estratégia',
-      questions: [
-        { name: 'estrategiasMarketing', label: 'Quais estratégias de marketing você usa e quais funcionam melhor?' },
-        { name: 'conversaoLeads', label: 'Como é seu processo atual de conversão de leads em clientes?' },
-        {
-          name: 'pesquisaClientes',
-          label: 'Você realizou pesquisa com clientes nos últimos 12 meses?',
-          type: 'radio',
-          options: ['Sim, pesquisa extensiva', 'Sim, pesquisa limitada', 'Apenas feedback informal', 'Sem pesquisa recente']
-        },
-        {
-          name: 'desafios',
-          label: 'Maiores desafios enfrentados atualmente:',
-          type: 'checkbox',
-          options: ['Aquisição de Clientes', 'Retenção de Clientes', 'Aumento da Concorrência', 'Gestão de Fluxo de Caixa', 'Eficiência Operacional', 'Dimensionamento do Negócio', 'Encontrar/Reter Talentos', 'Implementação de Tecnologia', 'Eficácia de Marketing']
-        },
-        {
-          name: 'objetivoNegocio',
-          label: 'Principal objetivo de negócio para os próximos 12 meses:',
-          type: 'select',
-          options: ['Aumentar Receita', 'Expandir Alcance de Mercado', 'Melhorar Rentabilidade', 'Lançar Novo Produto/Serviço', 'Melhorar Eficiência Operacional', 'Transformação Digital', 'Desenvolvimento de Equipe/Talentos']
-        }
-      ]
+      name: 'temSocios',
+      label: 'Você tem sócios?',
+      type: 'radio',
+      options: ['Sim', 'Não']
     },
     {
-      title: 'Estrutura e Gestão',
-      questions: [
-        {
-          name: 'tamanhoEquipe',
-          label: 'Qual o tamanho atual da sua equipe?',
-          type: 'select',
-          options: ['Empreendedor Solo', '2–5 funcionários', '6–20 funcionários', '21–50 funcionários', '51–200 funcionários', 'Mais de 200 funcionários']
-        },
-        { name: 'estruturaEquipe', label: 'Se tiver equipe, como ela está estruturada?' },
-        {
-          name: 'ferramentas',
-          label: 'Ferramentas ou plataformas que utiliza:',
-          type: 'checkbox',
-          options: ['Google Ads', 'Meta Ads', 'TikTok Ads', 'Taboola Ads', 'Linkedin Ads', 'WhatsApp (Grupos)', 'Outros']
-        },
-        {
-          name: 'pontosFortes',
-          label: 'Pontos fortes do seu negócio:',
-          type: 'checkbox',
-          options: ['Qualidade de Produto/Serviço', 'Atendimento ao Cliente', 'Tecnologia e Inovação', 'Reconhecimento de Marca', 'Expertise da Equipe', 'Eficiência Operacional', 'Parcerias Estratégicas', 'Localização/Presença Geográfica', 'Preços Competitivos']
-        },
-        {
-          name: 'concorrenciaNivel',
-          label: 'Como você caracteriza a concorrência no seu mercado?',
-          type: 'select',
-          options: ['Extremamente alta', 'Alta', 'Moderada', 'Baixa', 'Muito baixa']
-        },
-        {
-          name: 'roiEsperado',
-          label: 'Expectativa de retorno sobre investimento (ROI)',
-          type: 'select',
-          options: ['Conservador (até 20%)', 'Moderado (21–50%)', 'Agressivo (51–100%)', 'Muito agressivo (acima de 100%)']
-        },
-        {
-          name: 'capacidadeInvestimento',
-          label: 'Capacidade para novos investimentos:',
-          type: 'radio',
-          options: ['Significativa', 'Moderada', 'Limitada', 'Mínima', 'Incapaz de investir']
-        }
-      ]
+      name: 'posicaoMercado',
+      label: 'Como você descreveria sua posição atual no mercado?',
+      type: 'radio',
+      options: ['Líder de Mercado', 'Concorrente Forte', 'Presença Crescente', 'Novo Entrante', 'Dificuldade em Ganhar Tração']
+    },
+    { name: 'nicho', label: 'Qual é o seu nicho de mercado e o principal problema que resolve?' },
+    { name: 'produtoServico', label: 'Qual Produto/Serviço você oferece?' },
+    { name: 'modeloNegocio', label: 'Modelo de negócios e principais fontes de receita' },
+    { name: 'publicoAlvo', label: 'Quem é seu público-alvo e como os atrai hoje?' },
+    { name: 'momentoAtual', label: 'Como você descreveria o momento atual do seu negócio?' }
+  ]
+},
+{
+  title: 'Performance e Finanças',
+  questions: [
+    { name: 'ticketMedio', label: 'Ticket médio (R$)', type: 'number' },
+    { name: 'vendas3Meses', label: 'Total de vendas nos últimos 3 meses', type: 'number' },
+    { name: 'metaCrescimento', label: 'Meta de crescimento para os próximos 6 meses *' },
+    {
+      name: 'acompanhaFaturamento',
+      label: 'Você acompanha regularmente faturamento e lucro?',
+      type: 'radio',
+      options: ['Sim', 'Não', 'Às vezes']
     },
     {
-      title: 'Finalização e Expectativas',
-      questions: [
-        { name: 'resultadoEsperado', label: 'Qual é o principal resultado que você imagina ao final desta análise?' },
-        { name: 'planoAjudaComo', label: 'Como imagina que o Plano de Ação pode te ajudar?' },
-        {
-          name: 'interesseApoio',
-          label: 'Você gostaria de ajuda profissional para aplicar esse plano?',
-          type: 'radio',
-          options: ['Sim, claro', 'Não']
-        }
-      ]
+      name: 'investimentoMarketing',
+      label: 'Investimento médio mensal em marketing digital (últimos 6 meses)',
+      type: 'select',
+      options: ['Menos de R$ 5.000,00', 'Entre R$ 5.001,00 e R$ 10.000,00', 'Entre R$ 10.001,00 e R$ 20.000,00', 'Mais de R$ 20.001,00']
     }
   ]
+},
+{
+  title: 'Marketing e Estratégia',
+  questions: [
+    { name: 'estrategiasMarketing', label: 'Quais estratégias de marketing você usa e quais funcionam melhor?' },
+    { name: 'conversaoLeads', label: 'Como é seu processo atual de conversão de leads em clientes?' },
+    {
+      name: 'pesquisaClientes',
+      label: 'Você realizou pesquisa com clientes nos últimos 12 meses?',
+      type: 'radio',
+      options: ['Sim, pesquisa extensiva', 'Sim, pesquisa limitada', 'Apenas feedback informal', 'Sem pesquisa recente']
+    },
+    {
+      name: 'desafios',
+      label: 'Maiores desafios enfrentados atualmente:',
+      type: 'checkbox',
+      options: ['Aquisição de Clientes', 'Retenção de Clientes', 'Aumento da Concorrência', 'Gestão de Fluxo de Caixa', 'Eficiência Operacional', 'Dimensionamento do Negócio', 'Encontrar/Reter Talentos', 'Implementação de Tecnologia', 'Eficácia de Marketing']
+    },
+    {
+      name: 'objetivoNegocio',
+      label: 'Principal objetivo de negócio para os próximos 12 meses:',
+      type: 'select',
+      options: ['Aumentar Receita', 'Expandir Alcance de Mercado', 'Melhorar Rentabilidade', 'Lançar Novo Produto/Serviço', 'Melhorar Eficiência Operacional', 'Transformação Digital', 'Desenvolvimento de Equipe/Talentos']
+    }
+  ]
+},
+{
+  title: 'Estrutura e Gestão',
+  questions: [
+    {
+      name: 'tamanhoEquipe',
+      label: 'Qual o tamanho atual da sua equipe?',
+      type: 'select',
+      options: ['Empreendedor Solo', '2–5 funcionários', '6–20 funcionários', '21–50 funcionários', '51–200 funcionários', 'Mais de 200 funcionários']
+    },
+    { name: 'estruturaEquipe', label: 'Se tiver equipe, como ela está estruturada?' },
+    {
+      name: 'ferramentas',
+      label: 'Ferramentas ou plataformas que utiliza:',
+      type: 'checkbox',
+      options: ['Google Ads', 'Meta Ads', 'TikTok Ads', 'Taboola Ads', 'Linkedin Ads', 'WhatsApp (Grupos)', 'Outros']
+    },
+    {
+      name: 'pontosFortes',
+      label: 'Pontos fortes do seu negócio:',
+      type: 'checkbox',
+      options: ['Qualidade de Produto/Serviço', 'Atendimento ao Cliente', 'Tecnologia e Inovação', 'Reconhecimento de Marca', 'Expertise da Equipe', 'Eficiência Operacional', 'Parcerias Estratégicas', 'Localização/Presença Geográfica', 'Preços Competitivos']
+    },
+    {
+      name: 'concorrenciaNivel',
+      label: 'Como você caracteriza a concorrência no seu mercado?',
+      type: 'select',
+      options: ['Extremamente alta', 'Alta', 'Moderada', 'Baixa', 'Muito baixa']
+    },
+    {
+      name: 'roiEsperado',
+      label: 'Expectativa de retorno sobre investimento (ROI)',
+      type: 'select',
+      options: ['Conservador (até 20%)', 'Moderado (21–50%)', 'Agressivo (51–100%)', 'Muito agressivo (acima de 100%)']
+    },
+    {
+      name: 'capacidadeInvestimento',
+      label: 'Capacidade para novos investimentos:',
+      type: 'radio',
+      options: ['Significativa', 'Moderada', 'Limitada', 'Mínima', 'Incapaz de investir']
+    }
+  ]
+},
+{
+  title: 'Finalização e Expectativas',
+  questions: [
+    { name: 'resultadoEsperado', label: 'Qual é o principal resultado que você imagina ao final desta análise?' },
+    { name: 'planoAjudaComo', label: 'Como imagina que o Plano de Ação pode te ajudar?' },
+    {
+      name: 'interesseApoio',
+      label: 'Você gostaria de ajuda profissional para aplicar esse plano?',
+      type: 'radio',
+      options: ['Sim, claro', 'Não']
+    }
+  ]
+}
 
-  const currentStep = steps[step]
 
-  if (loading) return <p>🔄 Processando com IA... Aguarde...</p>
+const currentStep = steps[step]
 
-  if (resultado)
-    return (
-      <div ref={resultRef} style={{ maxWidth: 900, margin: 'auto', whiteSpace: 'pre-wrap' }}>
-        <h2>✅ Diagnóstico Gerado</h2>
-        <p>{resultado}</p>
-        <button onClick={gerarPDF} style={{ marginTop: 20 }}>📥 Baixar Diagnóstico em PDF</button>
-      </div>
-    )
+if (loading) return <p>🔄 Processando com IA... Aguarde...</p>
 
-  if (erro) return <p style={{ color: 'red' }}>{erro}</p>
-
+if (resultado)
   return (
-    <div style={{ maxWidth: 700, margin: 'auto' }}>
-      {currentStep?.title && <h2>{currentStep.title}</h2>}
-      <form>
-        {(currentStep?.questions || [])
-          .filter(q => q && q.name && q.label)
-          .map((q, index) => (
-            <div key={q.name || index} style={{ marginBottom: 12 }}>
-              <label>
-                {q.label}<br />
-                {q.type === 'select' ? (
-                  <select name={q.name} value={formData[q.name] || ''} onChange={handleChange}>
-                    <option value="">Selecione</option>
-                    (Array.isArray(q.options) ? q.options : []).map((opt) => (
-                      <option key={opt} value={opt}>{opt}</option>
-                    ))}
-                  </select>
-                ) : q.type === 'radio' ? (
-                  (Array.isArray(q.options) ? q.options : []).map((opt) => (
-                    <label key={opt} style={{ marginRight: 10 }}>
-                      <input
-                        type="radio"
-                        name={q.name}
-                        value={opt}
-                        checked={formData[q.name] === opt}
-                        onChange={handleChange}
-                      /> {opt}
-                    </label>
-                  ))
-                ) : q.type === 'checkbox' ? (
-                  (Array.isArray(q.options) ? q.options : []).map((opt) => (
-                    <label key={opt} style={{ display: 'block' }}>
-                      <input
-                        type="checkbox"
-                        name={q.name}
-                        value={opt}
-                        checked={(formData[q.name] || []).includes(opt)}
-                        onChange={handleChange}
-                      /> {opt}
-                    </label>
-                  ))
-                ) : q.name === 'whatsapp' ? (
-                  <InputMask
-                    mask="(99) 99999-9999"
-                    name={q.name}
-                    value={formData[q.name] || ''}
-                    onChange={handleChange}
-                  >
-                    {(inputProps) => (
-                      <input
-                        {...inputProps}
-                        type="tel"
-                        placeholder="(00) 90000-0000"
-                        style={{ width: '100%', padding: 8 }}
-                      />
-                    )}
-                  </InputMask>
-                ) : (
-                  <input
-                    type={q.type || 'text'}
-                    name={q.name}
-                    value={formData[q.name] || ''}
-                    onChange={handleChange}
-                    style={{ width: '100%', padding: 8 }}
-                  />
-                )}
-              </label>
-            </div>
-          ))}
-      </form>
-
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <button onClick={handleBack} disabled={step === 0}>⬅️ Voltar</button>
-        <button onClick={handleNext}>
-          {step === steps.length - 1 ? '✅ Enviar' : 'Próximo ➡️'}
-        </button>
-      </div>
+    <div ref={resultRef} style={{ maxWidth: 900, margin: 'auto', whiteSpace: 'pre-wrap' }}>
+      <h2>✅ Diagnóstico Gerado</h2>
+      <p>{resultado}</p>
+      <button onClick={gerarPDF} style={{ marginTop: 20 }}>📥 Baixar Diagnóstico em PDF</button>
     </div>
   )
-}
+
+if (erro) return <p style={{ color: 'red' }}>{erro}</p>
+
+return (
+  <div style={{ maxWidth: 700, margin: 'auto' }}>
+    {currentStep?.title && <h2>{currentStep.title}</h2>}
+    <form>
+      {(currentStep?.questions || [])
+        .filter(q => q && q.name && q.label)
+        .map((q, index) => (
+          <div key={q.name || index} style={{ marginBottom: 12 }}>
+            <label>
+              {q.label}<br />
+              {q.type === 'select' ? (
+                <select name={q.name} value={formData[q.name] || ''} onChange={handleChange}>
+                  <option value="">Selecione</option>
+                  {Array.isArray(q.options) ? q.options.map((opt) => (
+                    <option key={opt} value={opt}>{opt}</option>
+                  )) : null}
+                </select>
+              ) : q.type === 'radio' ? (
+                Array.isArray(q.options) ? q.options.map((opt) => (
+                  <label key={opt} style={{ marginRight: 10 }}>
+                    <input
+                      type="radio"
+                      name={q.name}
+                      value={opt}
+                      checked={formData[q.name] === opt}
+                      onChange={handleChange}
+                    /> {opt}
+                  </label>
+                )) : null
+              ) : q.type === 'checkbox' ? (
+                Array.isArray(q.options) ? q.options.map((opt) => (
+                  <label key={opt} style={{ display: 'block' }}>
+                    <input
+                      type="checkbox"
+                      name={q.name}
+                      value={opt}
+                      checked={(formData[q.name] || []).includes(opt)}
+                      onChange={handleChange}
+                    /> {opt}
+                  </label>
+                )) : null
+              ) : q.name === 'whatsapp' ? (
+                <InputMask
+                  mask="(99) 99999-9999"
+                  name={q.name}
+                  value={formData[q.name] || ''}
+                  onChange={handleChange}
+                >
+                  {(inputProps) => (
+                    <input
+                      {...inputProps}
+                      type="tel"
+                      placeholder="(00) 90000-0000"
+                      style={{ width: '100%', padding: 8 }}
+                    />
+                  )}
+                </InputMask>
+              ) : (
+                <input
+                  type={q.type || 'text'}
+                  name={q.name}
+                  value={formData[q.name] || ''}
+                  onChange={handleChange}
+                  style={{ width: '100%', padding: 8 }}
+                />
+              )}
+            </label>
+          </div>
+        ))}
+    </form>
+
+    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <button onClick={handleBack} disabled={step === 0}>⬅️ Voltar</button>
+      <button onClick={handleNext}>
+        {step === steps.length - 1 ? '✅ Enviar' : 'Próximo ➡️'}
+      </button>
+    </div>
+  </div>
+)
+
