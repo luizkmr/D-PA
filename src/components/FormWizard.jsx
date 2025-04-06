@@ -252,71 +252,74 @@ export default function FormWizard() {
   return (
     <div style={{ maxWidth: 700, margin: 'auto' }}>
       {currentStep?.title && <h2>{currentStep.title}</h2>}
-      <form>
-        {currentStep?.questions?.map((q) => (
-          <div key={q.name} style={{ marginBottom: 12 }}>
-            <label>
-              {q.label}<br />
-              {q.type === 'select' ? (
-                <select name={q.name} value={formData[q.name] || ''} onChange={handleChange}>
-                  <option value="">Selecione</option>
-                  {q.options.map((opt) => (
-                    <option key={opt} value={opt}>{opt}</option>
-                  ))}
-                </select>
-              ) : q.type === 'radio' ? (
-                q.options.map((opt) => (
-                  <label key={opt} style={{ marginRight: 10 }}>
-                    <input
-                      type="radio"
-                      name={q.name}
-                      value={opt}
-                      checked={formData[q.name] === opt}
-                      onChange={handleChange}
-                    /> {opt}
-                  </label>
-                ))
-              ) : q.type === 'checkbox' ? (
-                q.options.map((opt) => (
-                  <label key={opt} style={{ display: 'block' }}>
-                    <input
-                      type="checkbox"
-                      name={q.name}
-                      value={opt}
-                      checked={(formData[q.name] || []).includes(opt)}
-                      onChange={handleChange}
-                    /> {opt}
-                  </label>
-                ))
-              ) : q.name === 'whatsapp' ? (
-                <InputMask
-                  mask="(99) 99999-9999"
-                  name={q.name}
-                  value={formData[q.name] || ''}
-                  onChange={handleChange}
-                >
-                  {(inputProps) => (
-                    <input
-                      {...inputProps}
-                      type="tel"
-                      placeholder="(00) 90000-0000"
-                      style={{ width: '100%', padding: 8 }}
-                    />
-                  )}
-                </InputMask>
-              ) : (
+<form>
+  {(currentStep?.questions || [])
+    .filter(q => q && q.name && q.label)
+    .map((q, index) => (
+      <div key={q.name || index} style={{ marginBottom: 12 }}>
+        <label>
+          {q.label}<br />
+          {q.type === 'select' ? (
+            <select name={q.name} value={formData[q.name] || ''} onChange={handleChange}>
+              <option value="">Selecione</option>
+              {q.options?.map((opt) => (
+                <option key={opt} value={opt}>{opt}</option>
+              ))}
+            </select>
+          ) : q.type === 'radio' ? (
+            q.options?.map((opt) => (
+              <label key={opt} style={{ marginRight: 10 }}>
                 <input
-                  type={q.type || 'text'}
+                  type="radio"
                   name={q.name}
-                  value={formData[q.name] || ''}
+                  value={opt}
+                  checked={formData[q.name] === opt}
                   onChange={handleChange}
+                /> {opt}
+              </label>
+            ))
+          ) : q.type === 'checkbox' ? (
+            q.options?.map((opt) => (
+              <label key={opt} style={{ display: 'block' }}>
+                <input
+                  type="checkbox"
+                  name={q.name}
+                  value={opt}
+                  checked={(formData[q.name] || []).includes(opt)}
+                  onChange={handleChange}
+                /> {opt}
+              </label>
+            ))
+          ) : q.name === 'whatsapp' ? (
+            <InputMask
+              mask="(99) 99999-9999"
+              name={q.name}
+              value={formData[q.name] || ''}
+              onChange={handleChange}
+            >
+              {(inputProps) => (
+                <input
+                  {...inputProps}
+                  type="tel"
+                  placeholder="(00) 90000-0000"
                   style={{ width: '100%', padding: 8 }}
                 />
               )}
-            </label>
-          </div>
-        ))}
-      </form>
+            </InputMask>
+          ) : (
+            <input
+              type={q.type || 'text'}
+              name={q.name}
+              value={formData[q.name] || ''}
+              onChange={handleChange}
+              style={{ width: '100%', padding: 8 }}
+            />
+          )}
+        </label>
+      </div>
+    ))}
+</form>
+
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <button onClick={handleBack} disabled={step === 0}>⬅️ Voltar</button>
         <button onClick={handleNext}>
