@@ -260,12 +260,12 @@ export default function FormWizard() {
                 {q.type === 'select' ? (
                   <select name={q.name} value={formData[q.name] || ''} onChange={handleChange}>
                     <option value="">Selecione</option>
-                    {q.options?.map((opt) => (
+                    (Array.isArray(q.options) ? q.options : []).map((opt) => (
                       <option key={opt} value={opt}>{opt}</option>
                     ))}
                   </select>
                 ) : q.type === 'radio' ? (
-                  q.options?.map((opt) => (
+                  (Array.isArray(q.options) ? q.options : []).map((opt) => (
                     <label key={opt} style={{ marginRight: 10 }}>
                       <input
                         type="radio"
@@ -277,7 +277,7 @@ export default function FormWizard() {
                     </label>
                   ))
                 ) : q.type === 'checkbox' ? (
-                  q.options?.map((opt) => (
+                  (Array.isArray(q.options) ? q.options : []).map((opt) => (
                     <label key={opt} style={{ display: 'block' }}>
                       <input
                         type="checkbox"
