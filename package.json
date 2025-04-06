@@ -1,6 +1,6 @@
 {
   "name": "d-pa",
-  "version": "1.0.0",
+   "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "vite",
@@ -16,6 +16,6 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.0.0",
-    "vite": "^5.0.0"
+    "vite": "^4.5.0"
   }
 }
