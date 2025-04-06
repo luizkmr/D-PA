@@ -25,7 +25,8 @@ export default function FormWizard() {
   const [loading, setLoading] = useState(false)
   const [erro, setErro] = useState(null)
   const resultRef = useRef()
-  const handleSubmit = async () => {
+ const handleSubmit = async () => 
+ {
   setLoading(true)
   setErro(null)
   try {
@@ -34,9 +35,16 @@ export default function FormWizard() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
     })
+
     const data = await response.json()
-    setResultado(data.resultado)
+    console.log("📦 Resposta recebida:", data)  // <- Adiciona este log
+    if (data?.resultado) {
+      setResultado(data.resultado)
+    } else {
+      throw new Error('Resposta inválida da IA')
+    }
   } catch (err) {
+    console.error("❌ Erro na submissão:", err)
     setErro('Erro ao processar análise com IA.')
   } finally {
     setLoading(false)
