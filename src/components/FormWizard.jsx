@@ -25,6 +25,23 @@ export default function FormWizard() {
   const [loading, setLoading] = useState(false)
   const [erro, setErro] = useState(null)
   const resultRef = useRef()
+  const handleSubmit = async () => {
+  setLoading(true)
+  setErro(null)
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    })
+    const data = await response.json()
+    setResultado(data.resultado)
+  } catch (err) {
+    setErro('Erro ao processar análise com IA.')
+  } finally {
+    setLoading(false)
+  }
+}
 
   const steps = [
     {
