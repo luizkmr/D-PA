@@ -25,36 +25,40 @@ export default function FormWizard() {
   const [loading, setLoading] = useState(false)
   const [erro, setErro] = useState(null)
   const resultRef = useRef()
-const handleSubmit = async () => 
-{
+const handleSubmit = async () => {
   setLoading(true)
   setErro(null)
 
   try {
     const response = await fetch(API_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(formData),
     })
 
     const text = await response.text()
-    console.log("🔍 Resposta bruta da IA:", text)
+    console.log("📦 Resposta bruta:", text)
 
     let data
     try {
       data = JSON.parse(text)
-    } catch (err) {
-      throw new Error('Resposta não é JSON válido.')
+    } catch (parseError) {
+      console.error("❌ Erro ao fazer parse do JSON:", parseError)
+      throw new Error('Resposta da IA não está em formato JSON válido.')
     }
 
-    if (data?.resultado) {
+    // Verificando se a chave resultado existe
+    if (data && data.resultado) {
       setResultado(data.resultado)
     } else {
-      throw new Error('Campo "resultado" ausente na resposta.')
+      console.warn("⚠️ A resposta não possui a chave 'resultado':", data)
+      setResultado("⚠️ Nenhum diagnóstico foi retornado pela IA.")
     }
 
   } catch (err) {
-    console.error("❌ Erro ao enviar:", err)
+    console.error("❌ Erro no envio da API:", err)
     setErro('Erro ao processar análise com IA.')
   } finally {
     setLoading(false)
