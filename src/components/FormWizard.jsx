@@ -255,6 +255,18 @@ const handleSubmit = async () => {
     }
   ]
 
+  const gerarPDF = async () => 
+{
+  if (!resultRef.current) return
+  const canvas = await html2canvas(resultRef.current)
+  const imgData = canvas.toDataURL('image/png')
+  const pdf = new jsPDF('p', 'mm', 'a4')
+  const largura = pdf.internal.pageSize.getWidth()
+  const altura = pdf.internal.pageSize.getHeight()
+  pdf.addImage(imgData, 'PNG', 0, 0, largura, altura)
+  pdf.save(`diagnostico-${formData.nomeEmpresa || 'empresa'}.pdf`)
+}
+
   const currentStep = steps[step]
 
   const handleNext = () => {
