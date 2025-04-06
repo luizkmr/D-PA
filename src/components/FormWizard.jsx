@@ -40,9 +40,14 @@ const steps = [
   },
 ]
 
+const API_URL = 'https://SEU_PROJETO.up.railway.app/analyze' // substitua pelo seu endpoint real
+
 export default function FormWizard() {
   const [step, setStep] = useState(0)
   const [formData, setFormData] = useState({})
+  const [loading, setLoading] = useState(false)
+  const [resultado, setResultado] = useState(null)
+  const [erro, setErro] = useState(null)
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -50,14 +55,43 @@ export default function FormWizard() {
 
   const nextStep = () => {
     if (step < steps.length - 1) setStep(step + 1)
-    else console.log('Enviar dados:', formData)
+    else handleSubmit()
   }
 
   const prevStep = () => {
     if (step > 0) setStep(step - 1)
   }
 
+  const handleSubmit = async () => {
+    setLoading(true)
+    setErro(null)
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+      const data = await response.json()
+      setResultado(data.resultado)
+    } catch (err) {
+      setErro('Erro ao processar análise com IA.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const currentStep = steps[step]
+
+  if (loading) return <p>🔄 Analisando com IA... Aguarde alguns segundos...</p>
+
+  if (resultado) return (
+    <div style={{ whiteSpace: 'pre-wrap' }}>
+      <h2>✅ Diagnóstico Gerado</h2>
+      <p>{resultado}</p>
+    </div>
+  )
+
+  if (erro) return <p style={{ color: 'red' }}>⚠️ {erro}</p>
 
   return (
     <div style={{ maxWidth: '600px', margin: 'auto' }}>
@@ -79,9 +113,7 @@ export default function FormWizard() {
         ))}
       </form>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <button onClick={prevStep} disabled={step === 0}>
-          Voltar
-        </button>
+        <button onClick={prevStep} disabled={step === 0}>Voltar</button>
         <button onClick={nextStep}>
           {step === steps.length - 1 ? 'Enviar' : 'Próximo'}
         </button>
