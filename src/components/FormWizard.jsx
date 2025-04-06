@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
+import html2canvas from 'html2canvas'
+import jsPDF from 'jspdf'
 
 const steps = [
   {
@@ -40,7 +42,7 @@ const steps = [
   },
 ]
 
-const API_URL = 'https://d-pa-backend-production.up.railway.app/analyze' // substitua pelo seu endpoint real
+const API_URL = 'https://d-pa-backend-production.up.railway.app/analyze'
 
 export default function FormWizard() {
   const [step, setStep] = useState(0)
@@ -48,6 +50,7 @@ export default function FormWizard() {
   const [loading, setLoading] = useState(false)
   const [resultado, setResultado] = useState(null)
   const [erro, setErro] = useState(null)
+  const resultRef = useRef()
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -80,14 +83,28 @@ export default function FormWizard() {
     }
   }
 
+  const gerarPDF = async () => {
+    const elemento = resultRef.current
+    const canvas = await html2canvas(elemento)
+    const imgData = canvas.toDataURL('image/png')
+    const pdf = new jsPDF('p', 'mm', 'a4')
+    const largura = pdf.internal.pageSize.getWidth()
+    const altura = pdf.internal.pageSize.getHeight()
+    pdf.addImage(imgData, 'PNG', 0, 0, largura, altura)
+    pdf.save(`diagnostico-${formData.nomeEmpresa || 'empresa'}.pdf`)
+  }
+
   const currentStep = steps[step]
 
   if (loading) return <p>🔄 Analisando com IA... Aguarde alguns segundos...</p>
 
   if (resultado) return (
-    <div style={{ whiteSpace: 'pre-wrap' }}>
+    <div ref={resultRef} style={{ maxWidth: '800px', margin: 'auto', whiteSpace: 'pre-wrap' }}>
       <h2>✅ Diagnóstico Gerado</h2>
       <p>{resultado}</p>
+      <button onClick={gerarPDF} style={{ marginTop: '20px', padding: '10px 20px' }}>
+        📥 Baixar Diagnóstico em PDF
+      </button>
     </div>
   )
 
