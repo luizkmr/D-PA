@@ -66,20 +66,21 @@ const handleSubmit = async () => {
   }
 }
 const renderInput = (q) => {
-  const value = formData[q.name] || ''
+  if (!q || !q.name || !q.label) return null
+  const options = Array.isArray(q.options) ? q.options : []
 
   if (q.name === 'whatsapp') {
     return (
       <InputMask
         mask="(99) 99999-9999"
-        name={q.name}
-        value={value}
+        value={formData[q.name] || ''}
         onChange={handleChange}
       >
         {(inputProps) => (
           <input
             {...inputProps}
             type="tel"
+            name={q.name}
             placeholder="(00) 90000-0000"
             style={{ width: '100%', padding: 8 }}
           />
@@ -88,31 +89,69 @@ const renderInput = (q) => {
     )
   }
 
-  if (['ticketMedio', 'vendas3Meses'].includes(q.name)) {
+  if (q.type === 'number') {
     return (
       <input
         type="number"
         name={q.name}
-        min="0"
-        step="0.01"
-        value={value}
-        onChange={handleChange}
+        value={formData[q.name] || ''}
+        onChange={(e) => {
+          const onlyNums = e.target.value.replace(/\D/g, '')
+          setFormData({ ...formData, [q.name]: onlyNums })
+        }}
         style={{ width: '100%', padding: 8 }}
-        placeholder="Digite um valor"
       />
     )
   }
 
-  return (
-    <input
-      type={q.type || 'text'}
-      name={q.name}
-      value={value}
-      onChange={handleChange}
-      style={{ width: '100%', padding: 8 }}
-    />
-  )
+  switch (q.type) {
+    case 'select':
+      return (
+        <select name={q.name} value={formData[q.name] || ''} onChange={handleChange}>
+          <option value="">Selecione</option>
+          {options.map((opt) => (
+            <option key={opt} value={opt}>{opt}</option>
+          ))}
+        </select>
+      )
+    case 'radio':
+      return options.map((opt) => (
+        <label key={opt} style={{ marginRight: 10 }}>
+          <input
+            type="radio"
+            name={q.name}
+            value={opt}
+            checked={formData[q.name] === opt}
+            onChange={handleChange}
+          /> {opt}
+        </label>
+      ))
+    case 'checkbox':
+      return options.map((opt) => (
+        <label key={opt} style={{ display: 'block' }}>
+          <input
+            type="checkbox"
+            name={q.name}
+            value={opt}
+            checked={(formData[q.name] || []).includes(opt)}
+            onChange={handleChange}
+          /> {opt}
+        </label>
+      ))
+    default:
+      return (
+        <input
+          type={q.type || 'text'}
+          name={q.name}
+          value={formData[q.name] || ''}
+          onChange={handleChange}
+          style={{ width: '100%', padding: 8 }}
+        />
+      )
+  }
 }
+
+
 
   const steps = [
     {
@@ -416,7 +455,7 @@ const renderInput = (q) => {
   }
 
   return (
-    renderInput(q)
+    {renderInput(q)}
   )
 })()}
             </label>
