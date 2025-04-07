@@ -331,42 +331,52 @@ const handleSubmit = async () => {
                   </label>
                 ))
               ) : (
-                {q.name === 'whatsapp' ? (
-  <InputMask
-    mask="(99) 99999-9999"
-    name={q.name}
-    value={formData[q.name] || ''}
-    onChange={handleChange}
-  >
-    {(inputProps) => (
+ {(() => {
+  if (q.name === 'whatsapp') {
+    return (
+      <InputMask
+        mask="(99) 99999-9999"
+        name={q.name}
+        value={formData[q.name] || ''}
+        onChange={handleChange}
+      >
+        {(inputProps) => (
+          <input
+            {...inputProps}
+            type="tel"
+            placeholder="(00) 90000-0000"
+            style={{ width: '100%', padding: 8 }}
+          />
+        )}
+      </InputMask>
+    )
+  }
+
+  if (q.name === 'ticketMedio' || q.name === 'vendas3Meses') {
+    return (
       <input
-        {...inputProps}
-        type="tel"
-        placeholder="(00) 90000-0000"
+        type="number"
+        name={q.name}
+        min="0"
+        step="0.01"
+        value={formData[q.name] || ''}
+        onChange={handleChange}
         style={{ width: '100%', padding: 8 }}
+        placeholder="Digite um valor numérico"
       />
-    )}
-  </InputMask>
-) : q.name === 'ticketMedio' || q.name === 'vendas3Meses' ? (
-  <input
-    type="number"
-    name={q.name}
-    min="0"
-    step="0.01"
-    value={formData[q.name] || ''}
-    onChange={handleChange}
-    style={{ width: '100%', padding: 8 }}
-    placeholder="Digite um valor numérico"
-  />
-) : (
-  <input
-    type={q.type || 'text'}
-    name={q.name}
-    value={formData[q.name] || ''}
-    onChange={handleChange}
-    style={{ width: '100%', padding: 8 }}
-  />
-)}
+    )
+  }
+
+  return (
+    <input
+      type={q.type || 'text'}
+      name={q.name}
+      value={formData[q.name] || ''}
+      onChange={handleChange}
+      style={{ width: '100%', padding: 8 }}
+    />
+  )
+})()}
 
               )}
             </label>
