@@ -453,11 +453,8 @@ const renderInput = (q) => {
       />
     )
   }
-
-  return (
-    {renderInput(q)}
-  )
-})()}
+      {renderInput(q)}
+  })()}
             </label>
           </div>
         ))}
