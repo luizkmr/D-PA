@@ -377,8 +377,6 @@ const handleSubmit = async () => {
     />
   )
 })()}
-
-              )}
             </label>
           </div>
         ))}
