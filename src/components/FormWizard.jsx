@@ -330,8 +330,7 @@ const handleSubmit = async () => {
                     /> {opt}
                   </label>
                 ))
-              ) : (
- {(() => {
+              ) : (() => {
   if (q.name === 'whatsapp') {
     return (
       <InputMask
