@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react'
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
+import InputMask from 'react-input-mask'
 
 const API_URL = 'https://d-pa-backend-production.up.railway.app/analyze'
 
