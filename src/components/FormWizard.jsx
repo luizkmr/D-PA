@@ -65,6 +65,54 @@ const handleSubmit = async () => {
     setLoading(false)
   }
 }
+const renderInput = (q) => {
+  const value = formData[q.name] || ''
+
+  if (q.name === 'whatsapp') {
+    return (
+      <InputMask
+        mask="(99) 99999-9999"
+        name={q.name}
+        value={value}
+        onChange={handleChange}
+      >
+        {(inputProps) => (
+          <input
+            {...inputProps}
+            type="tel"
+            placeholder="(00) 90000-0000"
+            style={{ width: '100%', padding: 8 }}
+          />
+        )}
+      </InputMask>
+    )
+  }
+
+  if (['ticketMedio', 'vendas3Meses'].includes(q.name)) {
+    return (
+      <input
+        type="number"
+        name={q.name}
+        min="0"
+        step="0.01"
+        value={value}
+        onChange={handleChange}
+        style={{ width: '100%', padding: 8 }}
+        placeholder="Digite um valor"
+      />
+    )
+  }
+
+  return (
+    <input
+      type={q.type || 'text'}
+      name={q.name}
+      value={value}
+      onChange={handleChange}
+      style={{ width: '100%', padding: 8 }}
+    />
+  )
+}
 
   const steps = [
     {
@@ -368,13 +416,7 @@ const handleSubmit = async () => {
   }
 
   return (
-    <input
-      type={q.type || 'text'}
-      name={q.name}
-      value={formData[q.name] || ''}
-      onChange={handleChange}
-      style={{ width: '100%', padding: 8 }}
-    />
+    {renderInput(q)}
   )
 })()}
             </label>
